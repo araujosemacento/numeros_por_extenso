@@ -114,16 +114,16 @@ if __name__ == "__main__":
 
             # 2. Tenta gerar o extenso (pode gerar NumeroForaDoLimiteError)
             extenso = Conversor.numero_por_extenso(numero)
-            print(f"{numero} = {extenso}\n")
+            print(f"\n{numero} = {extenso}\n")
 
         except NumeroForaDoLimiteError as e:
             # Captura especificamente a exceção customizada
-            print(f"⚠️ Erro de Limite: {e}\n")
+            print(f"\n⚠️ Erro de Limite: {e}\n")
 
         except ValueError as e:
             # Captura se o usuário digitar letras ou símbolos inválidos
             print(
-                "Entrada inválida. Por favor, digite apenas números inteiros.\n"
+                "\nEntrada inválida. Por favor, digite apenas números inteiros.\n"
             )
 
         except Exception as e:
