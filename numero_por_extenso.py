@@ -56,7 +56,7 @@ class Conversor:
 
     @staticmethod
     def numero_por_extenso(num):
-        """Converte um número de -999 até 999 para extenso."""
+        """Converte um número de −999 até 999 para extenso."""
 
         if num == 0:
             return "zero"
@@ -119,7 +119,7 @@ def executar():
             # Captura especificamente a exceção customizada
             print(f"\nErro de Limite: {e}\n")
 
-        except ValueError as e:
+        except ValueError:
             # Captura se o usuário digitar letras ou símbolos inválidos
             print(
                 "\nEntrada inválida. Por favor, digite apenas números inteiros.\n"

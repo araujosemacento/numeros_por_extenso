@@ -90,10 +90,10 @@ def test_fluxo_da_interface_com_entradas_invalidas_e_recuperacao(monkeypatch, ca
     Garante que o script trata erros de digitação e limites sem interromper o loop.
     """
     # Sequência de ações aleatórias de um usuário:
-    # 1. Digita um texto inválido ("abc")  -> Espera-se: Mensagem de Entrada Inválida.
-    # 2. Digita um número estourado (1200) -> Espera-se: Mensagem do Erro de Limite.
-    # 3. Digita um número válido (16)      -> Espera-se: "16 = dezesseis".
-    # 4. Encerra a aplicação ("sair")      -> Espera-se: Fechamento regular.
+    # 1. Digita um texto inválido ("abc")  → Espera-se: Mensagem de Entrada Inválida.
+    # 2. Digita um número estourado (1200) → Espera-se: Mensagem do Erro de Limite.
+    # 3. Digita um número válido (16)      → Espera-se: "16 = dezesseis".
+    # 4. Encerra a aplicação ("sair")      → Espera-se: Fechamento regular.
     sequencia_entradas = iter(["abc", "1200", "16", "sair"])
     monkeypatch.setattr("builtins.input", lambda _: next(sequencia_entradas))
 
