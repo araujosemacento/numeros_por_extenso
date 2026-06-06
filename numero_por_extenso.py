@@ -1,6 +1,5 @@
 class NumeroForaDoLimiteError(ValueError):
     """Exceção retornada em caso de números fora do limite suportado (menores que 1000)."""
-
     pass
 
 
@@ -96,7 +95,7 @@ class Conversor:
 
 
 # --- SCRIPT DE BACKGROUND ---
-if __name__ == "__main__":
+def executar():
     print("--- Conversor de Números Nativo (Até 999) ---")
 
     while True:
@@ -118,7 +117,7 @@ if __name__ == "__main__":
 
         except NumeroForaDoLimiteError as e:
             # Captura especificamente a exceção customizada
-            print(f"\n⚠️ Erro de Limite: {e}\n")
+            print(f"\nErro de Limite: {e}\n")
 
         except ValueError as e:
             # Captura se o usuário digitar letras ou símbolos inválidos
@@ -129,3 +128,6 @@ if __name__ == "__main__":
         except Exception as e:
             # Captura qualquer outro erro inesperado
             print(f"Ocorreu um erro inesperado: {e}\n")
+
+if __name__ == "__main__":
+    executar()
