@@ -2,4 +2,4 @@
 
 Script python para o seminário de teste de software aplicado.
 
-<sub>O script escreve números por extenso e utiliza pytest para realizar verificações unitárias e de integração</sub>
+######O script escreve números por extenso e utiliza pytest para realizar verificações unitárias e de integração
