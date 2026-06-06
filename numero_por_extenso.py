@@ -73,7 +73,26 @@ class Conversor:
         if num == 100:
             return "cem"
 
+        c = num // 100
+        d = (num % 100) // 10
+        u = n % 10 if (n := num) else 0
 
+        partes = []
+
+        # 1. Centena
+        if c > 0:
+            partes.append(Conversor.CENTENAS[c])
+
+        # 2. Dezena e Unidade
+        if d == 1:
+            partes.append(Conversor.DEZ_A_DEZENOVE[u])
+        else:
+            if d > 1:
+                partes.append(Conversor.DEZENAS[d])
+            if u > 0:
+                partes.append(Conversor.UNIDADES[u])
+
+        return " e ".join(partes)
 
 
 # --- SCRIPT DE BACKGROUND ---
@@ -89,3 +108,4 @@ if __name__ == "__main__":
             print("Programa encerrado. Até mais!")
             break
 
+        
