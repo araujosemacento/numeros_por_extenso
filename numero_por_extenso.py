@@ -108,4 +108,24 @@ if __name__ == "__main__":
             print("Programa encerrado. Até mais!")
             break
 
-        
+        try:
+            # 1. Tenta converter a entrada para inteiro (pode gerar ValueError)
+            numero = int(entrada)
+
+            # 2. Tenta gerar o extenso (pode gerar NumeroForaDoLimiteError)
+            extenso = Conversor.numero_por_extenso(numero)
+            print(f"{numero} = {extenso}\n")
+
+        except NumeroForaDoLimiteError as e:
+            # Captura especificamente a exceção customizada
+            print(f"⚠️ Erro de Limite: {e}\n")
+
+        except ValueError as e:
+            # Captura se o usuário digitar letras ou símbolos inválidos
+            print(
+                "Entrada inválida. Por favor, digite apenas números inteiros.\n"
+            )
+
+        except Exception as e:
+            # Captura qualquer outro erro inesperado
+            print(f"Ocorreu um erro inesperado: {e}\n")
