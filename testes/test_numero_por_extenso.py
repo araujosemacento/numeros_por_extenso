@@ -63,20 +63,20 @@ def test_conversor_com_numeros_negativos_validos_ate_999(numero, extenso_esperad
     [
         # Casos base de milhar
         (1_000, "mil"),
-        (1_001, "mil e um"),
-        (1_010, "mil e dez"),
-        (1_100, "mil e cem"),
-        (1_200, "mil e duzentos"),
-        (1_234, "mil e duzentos e trinta e quatro"),
+        (1_001, "mil, um"),
+        (1_010, "mil, dez"),
+        (1_100, "mil, cem"),
+        (1_200, "mil, duzentos"),
+        (1_234, "mil, duzentos e trinta e quatro"),
         # Multiplos de mil
         (2_000, "dois mil"),
-        (2_001, "dois mil e um"),
+        (2_001, "dois mil, um"),
         (10_000, "dez mil"),
-        (12_345, "doze mil e trezentos e quarenta e cinco"),
+        (12_345, "doze mil, trezentos e quarenta e cinco"),
         (100_000, "cem mil"),
         (101_000, "cento e um mil"),
-        (101_001, "cento e um mil e um"),
-        (999_999, "novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (101_001, "cento e um mil, um"),
+        (999_999, "novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_milhar(numero, extenso_esperado):
@@ -87,10 +87,10 @@ def test_conversor_com_milhar(numero, extenso_esperado):
     "numero, extenso_esperado",
     [
         (-1_000, "menos mil"),
-        (-1_001, "menos mil e um"),
-        (-2_345, "menos dois mil e trezentos e quarenta e cinco"),
+        (-1_001, "menos mil, um"),
+        (-2_345, "menos dois mil, trezentos e quarenta e cinco"),
         (-100_000, "menos cem mil"),
-        (-999_999, "menos novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (-999_999, "menos novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_milhar_negativo(numero, extenso_esperado):
@@ -105,15 +105,15 @@ def test_conversor_com_milhar_negativo(numero, extenso_esperado):
     "numero, extenso_esperado",
     [
         (1_000_000, "um milhão"),
-        (1_000_001, "um milhão e um"),
-        (1_001_000, "um milhão e mil"),
+        (1_000_001, "um milhão, um"),
+        (1_001_000, "um milhão, mil"),
         (2_000_000, "dois milhões"),
-        (2_000_001, "dois milhões e um"),
-        (3_141_592, "três milhões e cento e quarenta e um mil e quinhentos e noventa e dois"),
+        (2_000_001, "dois milhões, um"),
+        (3_141_592, "três milhões, cento e quarenta e um mil, quinhentos e noventa e dois"),
         (10_000_000, "dez milhões"),
         (100_000_000, "cem milhões"),
-        (123_456_789, "cento e vinte e três milhões e quatrocentos e cinquenta e seis mil e setecentos e oitenta e nove"),
-        (999_999_999, "novecentos e noventa e nove milhões e novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (123_456_789, "cento e vinte e três milhões, quatrocentos e cinquenta e seis mil, setecentos e oitenta e nove"),
+        (999_999_999, "novecentos e noventa e nove milhões, novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_milhao(numero, extenso_esperado):
@@ -124,7 +124,7 @@ def test_conversor_com_milhao(numero, extenso_esperado):
     "numero, extenso_esperado",
     [
         (-1_000_000, "menos um milhão"),
-        (-1_000_001, "menos um milhão e um"),
+        (-1_000_001, "menos um milhão, um"),
         (-2_000_000, "menos dois milhões"),
     ],
 )
@@ -140,14 +140,14 @@ def test_conversor_com_milhao_negativo(numero, extenso_esperado):
     "numero, extenso_esperado",
     [
         (1_000_000_000, "um bilhão"),
-        (1_000_000_001, "um bilhão e um"),
-        (1_000_001_000, "um bilhão e mil"),
+        (1_000_000_001, "um bilhão, um"),
+        (1_000_001_000, "um bilhão, mil"),
         (2_000_000_000, "dois bilhões"),
-        (2_000_000_001, "dois bilhões e um"),
-        (2_500_000_000, "dois bilhões e quinhentos milhões"),
+        (2_000_000_001, "dois bilhões, um"),
+        (2_500_000_000, "dois bilhões, quinhentos milhões"),
         (10_000_000_000, "dez bilhões"),
         (100_000_000_000, "cem bilhões"),
-        (999_999_999_999, "novecentos e noventa e nove bilhões e novecentos e noventa e nove milhões e novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (999_999_999_999, "novecentos e noventa e nove bilhões, novecentos e noventa e nove milhões, novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_bilhao(numero, extenso_esperado):
@@ -170,11 +170,11 @@ def test_conversor_com_bilhao_negativo(numero, extenso_esperado):
 # ==============================================================================
 
 @pytest.mark.parametrize("numero_fora", [
-    1_000_000_000_000,          # 1 trilhao
-    -1_000_000_000_000,         # -1 trilhao
+    1_000_000_000_000,          # 1 trilhão
+    -1_000_000_000_000,         # -1 trilhão
     Conversor.LIMITE + 1,       # limite + 1
     Conversor.LIMITE + 100,     # limite + 100
-    10_000_000_000_000,         # 10 trilhoes
+    10_000_000_000_000,         # 10 trilhões
 ])
 def test_conversor_deve_lancar_excecao_customizada_fora_do_limite(numero_fora):
     """Garante que a classe dispara o erro customizado quando viola os limites de escopo."""

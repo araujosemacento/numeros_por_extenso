@@ -1,9 +1,3 @@
-import os
-import platform
-import subprocess
-import sys
-
-
 class NumeroForaDoLimiteError(ValueError):
     """Exceção retornada em caso de números fora do limite suportado."""
     pass
@@ -140,7 +134,7 @@ class Conversor:
                 if extenso:
                     resultados.append(extenso)
 
-        return " e ".join(reversed(resultados))
+        return ", ".join(reversed(resultados))
 
 
 def executar():
@@ -173,54 +167,5 @@ def executar():
             print(f"Ocorreu um erro inesperado: {e}\n")
 
 
-def configurar_ambiente():
-    so_nome = platform.system()
-    so_id = os.name
-    diretorio = os.path.dirname(os.path.abspath(__file__))
-    venv_path = os.path.join(diretorio, ".venv")
-
-    print("=" * 50)
-    print("  Configuracao do Ambiente Virtual")
-    print("=" * 50)
-    print(f"  SO detectado: {so_nome} (os.name={so_id})")
-    print(f"  Projeto:      {diretorio}")
-    print(f"  venv:         .venv")
-    print("=" * 50)
-    print()
-
-    python_cmd = sys.executable
-
-    if not os.path.exists(venv_path):
-        print("[VENV] Criando ambiente virtual...")
-        subprocess.check_call([python_cmd, "-m", "venv", venv_path])
-        print("[VENV] Ambiente virtual criado.\n")
-    else:
-        print("[VENV] Ambiente virtual ja existe.\n")
-
-    requirements = os.path.join(diretorio, "requirements.txt")
-    pip_cmd = os.path.join(venv_path, "Scripts" if so_id == "nt" else "bin", "pip")
-
-    if os.path.exists(requirements):
-        print("[PIP] Instalando dependencias de requirements.txt...")
-        subprocess.check_call([pip_cmd, "install", "-r", requirements])
-    else:
-        print("[PIP] Nenhum requirements.txt encontrado.")
-
-    print()
-    print("=" * 50)
-    print("  Ambiente configurado com sucesso!")
-    print("=" * 50)
-    print()
-    print("Para ativar manualmente, execute:")
-    if so_id == "nt":
-        print("    .venv\\Scripts\\Activate.ps1")
-    else:
-        print("    source .venv/bin/activate")
-    print()
-
-
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--setup":
-        configurar_ambiente()
-    else:
-        executar()
+    executar()
