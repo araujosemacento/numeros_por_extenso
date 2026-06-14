@@ -1,10 +1,17 @@
+import os
+import platform
+import subprocess
+import sys
+
+
 class NumeroForaDoLimiteError(ValueError):
-    """Exceção retornada em caso de números fora do limite suportado (menores que 1000)."""
+    """Exceção retornada em caso de números fora do limite suportado."""
     pass
 
 
 class Conversor:
-    # Listas compartilhadas pela classe
+    LIMITE = 999_999_999_999
+
     UNIDADES = [
         "",
         "um",
@@ -54,35 +61,27 @@ class Conversor:
         "novecentos",
     ]
 
+    ESCALAS = ["", "mil", "milhão", "bilhão"]
+    ESCALAS_PLURAL = ["", "mil", "milhões", "bilhões"]
+
     @staticmethod
-    def numero_por_extenso(num):
-        """Converte um número de −999 até 999 para extenso."""
-
+    def _ate_999(num):
+        """Converte um número de 0 até 999 para extenso."""
         if num == 0:
-            return "zero"
-
-        if abs(num) >= 1000:
-            raise NumeroForaDoLimiteError(
-                f"O número {num} está fora do limite suportado (deve ser entre -999 e 999)."
-            )
-
-        if num < 0:
-            return "menos " + Conversor.numero_por_extenso(abs(num))
+            return ""
 
         if num == 100:
             return "cem"
 
         c = num // 100
         d = (num % 100) // 10
-        u = n % 10 if (n := num) else 0
+        u = num % 10
 
         partes = []
 
-        # 1. Centena
         if c > 0:
             partes.append(Conversor.CENTENAS[c])
 
-        # 2. Dezena e Unidade
         if d == 1:
             partes.append(Conversor.DEZ_A_DEZENOVE[u])
         else:
@@ -93,10 +92,60 @@ class Conversor:
 
         return " e ".join(partes)
 
+    @staticmethod
+    def _extenso_com_escala(num, indice_escala):
+        """Converte chunk * escala. Para mil, omite 'um'."""
+        if num == 0:
+            return ""
 
-# --- SCRIPT DE BACKGROUND ---
+        if num == 1 and indice_escala == 1:
+            return "mil"
+
+        extenso = Conversor._ate_999(num)
+
+        if indice_escala == 0:
+            return extenso
+
+        escala = Conversor.ESCALAS[indice_escala]
+        escala_pl = Conversor.ESCALAS_PLURAL[indice_escala]
+
+        return f"{extenso} {escala if num == 1 else escala_pl}"
+
+    @staticmethod
+    def numero_por_extenso(num):
+        """Converte um número para extenso (até 999.999.999.999)."""
+
+        if num == 0:
+            return "zero"
+
+        if abs(num) > Conversor.LIMITE:
+            raise NumeroForaDoLimiteError(
+                f"O número {num} está fora do limite suportado (deve ser entre "
+                f"-{Conversor.LIMITE} e {Conversor.LIMITE})."
+            )
+
+        if num < 0:
+            return "menos " + Conversor.numero_por_extenso(abs(num))
+
+        chunks = []
+        n = num
+        while n > 0:
+            chunks.append(n % 1000)
+            n //= 1000
+
+        resultados = []
+        for i, chunk in enumerate(chunks):
+            if chunk > 0:
+                extenso = Conversor._extenso_com_escala(chunk, i)
+                if extenso:
+                    resultados.append(extenso)
+
+        return " e ".join(reversed(resultados))
+
+
 def executar():
-    print("--- Conversor de Números Nativo (Até 999) ---")
+    limite_formatado = f"{Conversor.LIMITE:,}".replace(",", ".")
+    print(f"--- Conversor de Números (Até {limite_formatado}) ---")
 
     while True:
         entrada = input(
@@ -108,26 +157,70 @@ def executar():
             break
 
         try:
-            # 1. Tenta converter a entrada para inteiro (pode gerar ValueError)
             numero = int(entrada)
-
-            # 2. Tenta gerar o extenso (pode gerar NumeroForaDoLimiteError)
             extenso = Conversor.numero_por_extenso(numero)
             print(f"\n{numero} = {extenso}\n")
 
         except NumeroForaDoLimiteError as e:
-            # Captura especificamente a exceção customizada
             print(f"\nErro de Limite: {e}\n")
 
         except ValueError:
-            # Captura se o usuário digitar letras ou símbolos inválidos
             print(
                 "\nEntrada inválida. Por favor, digite apenas números inteiros.\n"
             )
 
         except Exception as e:
-            # Captura qualquer outro erro inesperado
             print(f"Ocorreu um erro inesperado: {e}\n")
 
+
+def configurar_ambiente():
+    so_nome = platform.system()
+    so_id = os.name
+    diretorio = os.path.dirname(os.path.abspath(__file__))
+    venv_path = os.path.join(diretorio, ".venv")
+
+    print("=" * 50)
+    print("  Configuracao do Ambiente Virtual")
+    print("=" * 50)
+    print(f"  SO detectado: {so_nome} (os.name={so_id})")
+    print(f"  Projeto:      {diretorio}")
+    print(f"  venv:         .venv")
+    print("=" * 50)
+    print()
+
+    python_cmd = sys.executable
+
+    if not os.path.exists(venv_path):
+        print("[VENV] Criando ambiente virtual...")
+        subprocess.check_call([python_cmd, "-m", "venv", venv_path])
+        print("[VENV] Ambiente virtual criado.\n")
+    else:
+        print("[VENV] Ambiente virtual ja existe.\n")
+
+    requirements = os.path.join(diretorio, "requirements.txt")
+    pip_cmd = os.path.join(venv_path, "Scripts" if so_id == "nt" else "bin", "pip")
+
+    if os.path.exists(requirements):
+        print("[PIP] Instalando dependencias de requirements.txt...")
+        subprocess.check_call([pip_cmd, "install", "-r", requirements])
+    else:
+        print("[PIP] Nenhum requirements.txt encontrado.")
+
+    print()
+    print("=" * 50)
+    print("  Ambiente configurado com sucesso!")
+    print("=" * 50)
+    print()
+    print("Para ativar manualmente, execute:")
+    if so_id == "nt":
+        print("    .venv\\Scripts\\Activate.ps1")
+    else:
+        print("    source .venv/bin/activate")
+    print()
+
+
 if __name__ == "__main__":
-    executar()
+    if len(sys.argv) > 1 and sys.argv[1] == "--setup":
+        configurar_ambiente()
+    else:
+        executar()
