@@ -168,11 +168,11 @@ def test_conversor_com_milhar_negativo(numero, extenso_esperado):
         (1_001_000, "um milhão e mil"),
         (2_000_000, "dois milhões"),
         (2_000_001, "dois milhões e um"),
-        (3_141_592, "três milhões, cento e quarenta e um mil e quinhentos e noventa e dois"),
+        (3_141_592, "três milhões, cento e quarenta e um mil, quinhentos e noventa e dois"),
         (10_000_000, "dez milhões"),
         (100_000_000, "cem milhões"),
-        (123_456_789, "cento e vinte e três milhões, quatrocentos e cinquenta e seis mil e setecentos e oitenta e nove"),
-        (999_999_999, "novecentos e noventa e nove milhões, novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (123_456_789, "cento e vinte e três milhões, quatrocentos e cinquenta e seis mil, setecentos e oitenta e nove"),
+        (999_999_999, "novecentos e noventa e nove milhões, novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_milhao(numero, extenso_esperado):
@@ -206,7 +206,7 @@ def test_conversor_com_milhao_negativo(numero, extenso_esperado):
         (2_500_000_000, "dois bilhões e quinhentos milhões"),
         (10_000_000_000, "dez bilhões"),
         (100_000_000_000, "cem bilhões"),
-        (999_999_999_999, "novecentos e noventa e nove bilhões, novecentos e noventa e nove milhões, novecentos e noventa e nove mil e novecentos e noventa e nove"),
+        (999_999_999_999, "novecentos e noventa e nove bilhões, novecentos e noventa e nove milhões, novecentos e noventa e nove mil, novecentos e noventa e nove"),
     ],
 )
 def test_conversor_com_bilhao(numero, extenso_esperado):

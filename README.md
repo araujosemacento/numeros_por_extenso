@@ -102,8 +102,8 @@ O arquivo `tests/test_numero_por_extenso.py` contém os seguinte grupos de verif
 | ------- | ---------------- | --------- |
 | **Unidades (0 a 999)** | Números simples, dezenas, centenas | `100` → "cem", `99` → "noventa e nove" |
 | **Milhar** | Milhares de todas as formas | `1.234` → "mil, duzentos e trinta e quatro" |
-| **Milhão** | Milhões e combinações | `3.141.592` → "três milhões, cento e quarenta e um mil e quinhentos e noventa e dois" |
-| **Bilhão** | Grandes valores | `999.999.999.999` → "novecentos e noventa e nove bilhões, novecentos e noventa e nove milhões, novecentos e noventa e nove mil e novecentos e noventa e nove" |
+| **Milhão** | Milhões e combinações | `3.141.592` → "três milhões, cento e quarenta e um mil, quinhentos e noventa e dois" |
+| **Bilhão** | Grandes valores | `999.999.999.999` → "novecentos e noventa e nove bilhões, novecentos e noventa e nove milhões, novecentos e noventa e nove mil, novecentos e noventa e nove" |
 | **Separadores** | Aceita strings com `.` e `,` | `"1.000.000"` funciona |
 | **Floats** | Números com casa decimal zero | `1000.0` → "mil" |
 | **Buracos entre grandezas** | Quando alguma grandeza é zero | `1.300` → "mil e trezentos" |

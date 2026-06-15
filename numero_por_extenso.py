@@ -225,8 +225,14 @@ class Conversor:
                 # Apenas 2 ordens de grandeza (consecutivas): sempre "e"
                 separador_ultimo = " e "
             else:
-                # 3+ chunks: vírgula por padrão, " e " se último é unidades
-                separador_ultimo = " e " if ultimo_idx == 0 else ", "
+                # 3+ chunks: vírgula por padrão, " e " se último é unidades simples
+                if ultimo_idx == 0:
+                    if ultimo_val >= 100 and ultimo_val % 100 != 0:
+                        separador_ultimo = ", "
+                    else:
+                        separador_ultimo = " e "
+                else:
+                    separador_ultimo = ", "
 
             texto_final += separador_ultimo + ultimo_ext
 
